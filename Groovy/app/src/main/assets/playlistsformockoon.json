@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Hard Rock Cafe",
+    "category": "rock"
+  },
+    {
+    "id": "2",
+    "name": "Chilled House",
+    "category": "house"
+  },
+    {
+    "id": "3",
+    "name": "US TOP 40 HITS",
+    "category": "mixed"
+  },
+    {
+    "id": "4",
+    "name": "90's Rock",
+    "category": "rock"
+  },
+    {
+    "id": "5",
+    "name": "Purple Jazz",
+    "category": "jazz"
+  },
+  {
+    "id": "6",
+    "name": "90's flashback",
+    "category": "pop"
+  },
+  {
+    "id": "7",
+    "name": "Machine Funk",
+    "category": "electro"
+  },
+  {
+    "id": "8",
+    "name": "Let's Groove",
+    "category": "mixed"
+  },
+  {
+    "id": "9",
+    "name": "Feel The Beat",
+    "category": "electro"
+  },
+  {
+    "id": "10",
+    "name": "Best Songs 2020",
+    "category": "mixed"
+  }
+ ]
