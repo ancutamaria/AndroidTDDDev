@@ -3,9 +3,9 @@ package com.am.groovy.playlist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import java.lang.RuntimeException
+import javax.inject.Inject
 
-class PlaylistService(
+class PlaylistService @Inject constructor(
         private val api: PlaylistAPI
 ) {
 
