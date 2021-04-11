@@ -14,8 +14,11 @@ import com.am.groovy.R
 class PlaylistFragment : Fragment() {
 
     lateinit var viewModel: PlaylistViewModel
-    lateinit var  viewModelFactory: PlaylistViewModelFactory
-    private val repository = PlaylistRepository()
+    lateinit var viewModelFactory: PlaylistViewModelFactory
+
+    private val api = PlaylistAPI()
+    private val service = PlaylistService(api)
+    private val repository = PlaylistRepository(service)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
