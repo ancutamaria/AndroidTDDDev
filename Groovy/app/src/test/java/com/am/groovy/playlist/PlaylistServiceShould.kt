@@ -40,14 +40,14 @@ class PlaylistServiceShould: BaseUnitTest() {
         assertEquals("Something went wrong", service.fetchPlaylists().first().exceptionOrNull()?.message)
     }
 
-    private fun mockSuccessfulCase() {
+    private fun mockSuccessfulCase() = runBlockingTest{
         whenever(api.fetchAllPlaylists())
                 .thenReturn(playlists)
 
         service = PlaylistService(api)
     }
 
-    private fun mockFailureCase() {
+    private fun mockFailureCase() = runBlockingTest {
         whenever(api.fetchAllPlaylists())
                 .thenThrow(RuntimeException("Ups"))
         service = PlaylistService(api)
