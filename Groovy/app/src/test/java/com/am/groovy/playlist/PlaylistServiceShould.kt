@@ -14,7 +14,7 @@ class PlaylistServiceShould: BaseUnitTest() {
 
     private lateinit var service: PlaylistService
     private val api: PlaylistAPI = mock()
-    private val playlists: List<Playlist> = mock()
+    private val playlists: List<PlaylistRaw> = mock()
 
     @Test
     fun fetchPlaylistsFromAPI() = runBlockingTest{
