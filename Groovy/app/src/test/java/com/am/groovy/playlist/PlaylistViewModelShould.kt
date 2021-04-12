@@ -1,6 +1,7 @@
 package com.am.groovy.playlist
 
 import com.am.groovy.utils.BaseUnitTest
+import com.am.groovy.utils.captureValues
 import com.am.groovy.utils.getValueForTest
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
@@ -38,6 +39,47 @@ class PlaylistViewModelShould: BaseUnitTest() {
 
     @Test
     fun emitErrorWhenReceivesError(){
+        val viewModel = mockFailureCase()
+
+        assertEquals(exception, viewModel.playlists.getValueForTest()!!.exceptionOrNull())
+    }
+
+
+
+    @Test
+    fun showSpinnerWhileLoading() = runBlockingTest {
+        val viewModel = mockSuccessfulCase()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+
+            assertEquals(true, values[0])
+        }
+    }
+
+    @Test
+    fun closeLoaderAfterPlaylistsLoad() = runBlockingTest {
+        val viewModel = mockSuccessfulCase()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+
+            assertEquals(false, values.last())
+        }
+    }
+
+    @Test
+    fun closeLoaderAfterError() = runBlockingTest {
+        val viewModel = mockFailureCase()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+
+            assertEquals(false, values.last())
+        }
+    }
+
+    private fun mockFailureCase(): PlaylistViewModel {
         runBlocking {
             whenever(repository.getPlaylists()).thenReturn(
                 flow {
@@ -46,11 +88,8 @@ class PlaylistViewModelShould: BaseUnitTest() {
             )
 
         }
-        val viewModel = PlaylistViewModel(repository)
-
-        assertEquals(exception, viewModel.playlists.getValueForTest()!!.exceptionOrNull())
+        return PlaylistViewModel(repository)
     }
-
 
     private fun mockSuccessfulCase(): PlaylistViewModel {
         runBlocking {

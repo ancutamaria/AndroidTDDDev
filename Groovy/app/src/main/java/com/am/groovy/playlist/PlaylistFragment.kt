@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -11,9 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.am.groovy.R
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -24,17 +22,26 @@ class PlaylistFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: PlaylistViewModelFactory
 
+    lateinit var loader: ProgressBar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_playlist, container, false)
-
+        loader = view.findViewById(R.id.loader)
         setupViewModel()
+
+        viewModel.loader.observe(this as LifecycleOwner) { loading ->
+            when (loading) {
+                true -> loader.visibility = View.VISIBLE
+                false -> loader.visibility = View.GONE
+            }
+        }
 
         viewModel.playlists.observe(this as LifecycleOwner, { playlists ->
             if (playlists.getOrNull() != null)
-                setupList(view, playlists.getOrNull())
+                setupList(view.findViewById(R.id.playlists_list), playlists.getOrNull())
             else {
                 // TODO
             }
