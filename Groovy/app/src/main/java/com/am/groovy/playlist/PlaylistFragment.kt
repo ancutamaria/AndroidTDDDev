@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.am.groovy.R
@@ -41,7 +42,7 @@ class PlaylistFragment : Fragment() {
 
         viewModel.playlists.observe(this as LifecycleOwner, { playlists ->
             if (playlists.getOrNull() != null)
-                setupList(view.findViewById(R.id.playlists_list), playlists.getOrNull())
+                setupList(view.findViewById(R.id.playlists_list), playlists.getOrNull()!!)
             else {
                 // TODO
             }
@@ -51,11 +52,16 @@ class PlaylistFragment : Fragment() {
 
     private fun setupList(
         view: View?,
-        playlists: List<Playlist>?
+        playlists: List<Playlist>
     ) {
         with(view as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
-            adapter = playlists?.let { MyPlaylistRecyclerViewAdapter(it) }
+            adapter = MyPlaylistRecyclerViewAdapter(playlists) { id ->
+                val action =
+                    PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistDetailFragment(id)
+
+                findNavController()//.navigate(action)
+            }
         }
     }
 
