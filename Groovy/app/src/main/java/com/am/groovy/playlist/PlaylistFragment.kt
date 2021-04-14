@@ -60,7 +60,7 @@ class PlaylistFragment : Fragment() {
                 val action =
                     PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistDetailFragment(id)
 
-                findNavController()//.navigate(action)
+                findNavController().navigate(action)
             }
         }
     }
