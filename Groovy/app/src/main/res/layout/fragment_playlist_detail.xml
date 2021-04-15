@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlaylistDetailFragment"
-    android:id="@+id/playlists_details_root">
+    android:id="@+id/playlists_details_root"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/playlistdetails_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hard Rock Cafe"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/design_default_color_primary"
+        />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/playlistdetails_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rock your senses with this timeless signature vibe list. \n\n • Poison \n • You shook me all night \n • Zombie \n • Rock'n Me \n • Thunderstruck \n • I Hate Myself for Loving you \n • Crazy \n • Knockin' on Heavens Door"
+        />
+
+</LinearLayout>
