@@ -1,6 +1,7 @@
 package com.am.groovy.details
 
 import com.am.groovy.utils.BaseUnitTest
+import com.am.groovy.utils.captureValues
 import com.am.groovy.utils.getValueForTest
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
@@ -9,6 +10,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert
 import org.junit.Test
 import java.lang.RuntimeException
 
@@ -60,14 +62,12 @@ class PlaylistDetailsViewModelShould: BaseUnitTest() {
 
     @Test
     fun emitErrorWhenServiceFails() = runBlockingTest {
-        runBlockingTest {
-            whenever(service.fetchPlaylistDetails(id))
-                .thenReturn(
-                    flow {
-                        emit(Result.failure<PlaylistDetails>(exception))
-                    }
-                )
-        }
+        whenever(service.fetchPlaylistDetails(id))
+            .thenReturn(
+                flow {
+                    emit(Result.failure<PlaylistDetails>(exception))
+                }
+            )
 
         viewModel = PlaylistDetailsViewModel(service)
         viewModel.getPlaylistDetails(id)
@@ -75,5 +75,60 @@ class PlaylistDetailsViewModelShould: BaseUnitTest() {
 
     }
 
+    @Test
+    fun showLoaderWhileLoading() = runBlockingTest {
+        whenever(service.fetchPlaylistDetails(id)).thenReturn(
+            flow {
+                emit(expected)
+            }
+        )
+
+        viewModel = PlaylistDetailsViewModel(service)
+
+
+        viewModel.loader.captureValues {
+            viewModel.getPlaylistDetails(id)
+            viewModel.playlistDetails.getValueForTest()
+
+            Assert.assertEquals(true, values.first())
+        }
+    }
+
+    @Test
+    fun closeLoaderAfterPlaylistsLoad() = runBlockingTest {
+        whenever(service.fetchPlaylistDetails(id))
+            .thenReturn(
+                flow {
+                    emit(expected)
+                }
+            )
+
+        val viewModel = PlaylistDetailsViewModel(service)
+        viewModel.getPlaylistDetails(id)
+
+        viewModel.loader.captureValues {
+            viewModel.playlistDetails.getValueForTest()
+
+            assertEquals(false, values.last())
+        }
+    }
+
+//    @Test
+//    fun closeLoaderAfterError() = runBlockingTest {
+//        whenever(service.fetchPlaylistDetails(id))
+//            .thenReturn(
+//                flow {
+//                    emit(Result.failure<PlaylistDetails>(exception))
+//                }
+//            )
+//
+//        viewModel = PlaylistDetailsViewModel(service)
+//
+//        viewModel.loader.captureValues {
+//            viewModel.playlistDetails.getValueForTest()
+//
+//            assertEquals(false, values.last())
+//        }
+//    }
 
 }

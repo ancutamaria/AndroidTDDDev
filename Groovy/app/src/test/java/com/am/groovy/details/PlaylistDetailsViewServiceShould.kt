@@ -2,14 +2,11 @@ package com.am.groovy.details
 
 import com.am.groovy.playlist.PlaylistAPI
 import com.am.groovy.utils.BaseUnitTest
-import com.am.groovy.utils.getValueForTest
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
